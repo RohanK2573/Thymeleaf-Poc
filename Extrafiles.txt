@@ -1,0 +1,192 @@
+<img th:src="@{/images/sg-logo.png}" alt="Logo" />
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title th:text="'Invoice ' + ${invoice.invoiceNo}">Invoice</title>
+
+  <style>
+    /* Page */
+    body { font-family: Arial, sans-serif; margin: 28px; color: #111; font-size: 12px; }
+    .page { width: 100%; }
+
+    /* Header box like PDF */
+    .header-box {
+      border: 2px solid #333;
+      padding: 18px 18px 14px 18px;
+    }
+
+    .header-top {
+      display: grid;
+      grid-template-columns: 1fr 180px;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: 0.2px;
+    }
+
+    .period {
+      text-align: center;
+      margin-top: 6px;
+      font-size: 12px;
+    }
+
+    .logo {
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-start;
+    }
+
+    .logo img { max-width: 170px; height: auto; }
+
+    .header-body {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 26px;
+    }
+
+    .block h3 {
+      font-size: 13px;
+      margin: 0 0 8px 0;
+      font-weight: 700;
+      text-transform: none;
+    }
+
+    .row { display: grid; grid-template-columns: 110px 1fr; gap: 10px; margin: 3px 0; }
+    .label { font-weight: 700; }
+    .value { }
+
+    .subsection-title {
+      margin-top: 10px;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    /* Example divider space for rest of invoice content */
+    .content { margin-top: 18px; }
+
+    /* Print/PDF friendly */
+    @page { margin: 18mm; }
+  </style>
+</head>
+
+<body>
+<div class="page">
+
+  <div class="header-box">
+
+    <div class="header-top">
+      <div>
+        <p class="title">Agency Lending &amp; Borrowing Invoice</p>
+
+        <div class="period">
+          For the period&nbsp;&nbsp;
+          <b th:text="${periodStart}">01/01/2025</b>
+          &nbsp;&nbsp;to&nbsp;&nbsp;
+          <b th:text="${periodEnd}">24/01/2025</b>
+        </div>
+      </div>
+
+      <div class="logo">
+        <img th:src="@{/images/sg-logo.png}" alt="Societe Generale Logo"/>
+      </div>
+    </div>
+
+    <div class="header-body">
+
+      <!-- LEFT SIDE -->
+      <div class="block">
+        <h3 th:text="${deskName}">LMA Securities Lending Desk</h3>
+
+        <div class="row">
+          <div class="label">Address</div>
+          <div class="value" th:text="${deskAddressLine1}">17 Cours Valmy</div>
+        </div>
+        <div class="row">
+          <div class="label"></div>
+          <div class="value" th:text="${deskAddressLine2}">92800 PUTEAUX</div>
+        </div>
+
+        <div class="subsection-title">Front Office</div>
+        <div class="row">
+          <div class="label">Phone:</div>
+          <div class="value" th:text="${frontOfficePhone}">+33 (0)1 5898 7059</div>
+        </div>
+        <div class="row">
+          <div class="label">Fax:</div>
+          <div class="value" th:text="${frontOfficeFax}">+33 (0)1 5305 4754</div>
+        </div>
+
+        <div class="subsection-title" style="text-align:center;">Operations</div>
+        <div class="row">
+          <div class="label">Phone:</div>
+          <div class="value" th:text="${opsPhone}">+33 (0)1 5305 4881</div>
+        </div>
+        <div class="row">
+          <div class="label">Fax:</div>
+          <div class="value" th:text="${opsFax}">+33 (0)1 5305 4754</div>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE -->
+      <div class="block">
+        <div class="row">
+          <div class="label">Client Name</div>
+          <div class="value" th:text="${clientName}">EDFFACTU</div>
+        </div>
+        <div class="row">
+          <div class="label">Address</div>
+          <div class="value" th:text="${clientAddress}">22-30 avenue de Wagram</div>
+        </div>
+        <div class="row">
+          <div class="label">Contact Name</div>
+          <div class="value" th:text="${clientContactName}">EDFFACTU</div>
+        </div>
+        <div class="row">
+          <div class="label">Fax</div>
+          <div class="value" th:text="${clientFax}"></div>
+        </div>
+        <div class="row">
+          <div class="label">E-Mail</div>
+          <div class="value" th:text="${clientEmail}"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- Next you can add table/lines/fees like the rest of invoice -->
+    <p class="muted" style="color:#666;">(Invoice lines / fees table goes here)</p>
+  </div>
+
+</div>
+</body>
+</html>
+
+return Map.of(
+  "invoice", invoice,
+  "periodStart", "01/01/2025",
+  "periodEnd", "24/01/2025",
+  "deskName", "LMA Securities Lending Desk",
+  "deskAddressLine1", "17 Cours Valmy",
+  "deskAddressLine2", "92800 PUTEAUX",
+  "frontOfficePhone", "+33 (0)1 5898 7059",
+  "frontOfficeFax", "+33 (0)1 5305 4754",
+  "opsPhone", "+33 (0)1 5305 4881",
+  "opsFax", "+33 (0)1 5305 4754",
+  "clientName", "EDFFACTU",
+  "clientAddress", "22-30 avenue de Wagram",
+  "clientContactName", "EDFFACTU",
+  "clientFax", "",
+  "clientEmail", ""
+);
