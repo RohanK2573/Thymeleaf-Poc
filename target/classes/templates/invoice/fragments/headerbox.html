@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="headerbox(h)">
+    <style>
+        .box { border:2px solid #333; padding:14px; }
+        .top { display:grid; grid-template-columns: 1fr 180px; gap:14px; }
+        .title { font-size:18px; font-weight:700; text-align:center; margin:0; }
+        .period { text-align:center; margin-top:6px; }
+        .logo { display:flex; justify-content:flex-end; }
+        .logo img { max-width:170px; height:auto; }
+
+        .body { margin-top:14px; display:grid; grid-template-columns: 1fr 1fr; gap:22px; }
+        .h3 { font-size:12px; font-weight:700; margin:0 0 8px 0; }
+        .row { display:grid; grid-template-columns: 95px 1fr; gap:10px; margin:3px 0; }
+        .label { font-weight:700; }
+        .underline { font-weight:700; text-decoration: underline; margin-top:10px; }
+    </style>
+
+    <div class="box">
+        <div class="top">
+            <div>
+                <p class="title">Agency Lending &amp; Borrowing Invoice</p>
+                <div class="period">
+                    For the period <b th:text="${h.periodStart}">01/01/2025</b>
+                    &nbsp;to&nbsp;
+                    <b th:text="${h.periodEnd}">24/01/2025</b>
+                </div>
+            </div>
+
+            <div class="logo">
+                <!-- Recommended for PDF: base64 data URI -->
+                <img th:src="${h.logoDataUri}" alt="Logo"/>
+            </div>
+        </div>
+
+        <div class="body">
+            <!-- LEFT -->
+            <div>
+                <div class="h3" th:text="${h.deskName}">LMA Securities Lending Desk</div>
+
+                <div class="row"><div class="label">Address</div><div th:text="${h.deskAddr1}"></div></div>
+                <div class="row"><div></div><div th:text="${h.deskAddr2}"></div></div>
+
+                <div class="underline">Front Office</div>
+                <div class="row"><div class="label">Phone:</div><div th:text="${h.frontPhone}"></div></div>
+                <div class="row"><div class="label">Fax:</div><div th:text="${h.frontFax}"></div></div>
+
+                <div class="underline" style="text-align:center;">Operations</div>
+                <div class="row"><div class="label">Phone:</div><div th:text="${h.opsPhone}"></div></div>
+                <div class="row"><div class="label">Fax:</div><div th:text="${h.opsFax}"></div></div>
+            </div>
+
+            <!-- RIGHT -->
+            <div>
+                <div class="row"><div class="label">Client Name</div><div th:text="${h.clientName}"></div></div>
+                <div class="row"><div class="label">Address</div><div th:text="${h.clientAddress}"></div></div>
+                <div class="row"><div class="label">Contact Name</div><div th:text="${h.clientContact}"></div></div>
+                <div class="row"><div class="label">Fax</div><div th:text="${h.clientFax}"></div></div>
+                <div class="row"><div class="label">E-Mail</div><div th:text="${h.clientEmail}"></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

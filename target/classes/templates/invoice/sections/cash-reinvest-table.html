@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="cashTable(t)">
+    <style>
+        .section-title { font-size:12px; font-weight:700; text-decoration: underline; margin: 0 0 8px 0; }
+        .thin th, .thin td { padding:5px 6px; font-size:10px; }
+        .black-head th { background:#111; color:#fff; border-color:#111; }
+    </style>
+
+    <div class="section-title">Cash Reinvestment Revenues</div>
+
+    <table class="thin">
+        <thead class="black-head">
+        <tr>
+            <th>Date</th>
+            <th>Stock Name</th>
+            <th>ISIN</th>
+            <th class="right">Reinvested Cash</th>
+            <th class="right">Nominal Performance (%)</th>
+            <th class="right">Cash Reinvestment Revenue</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="r : ${t.rows}">
+            <td th:text="${r.date}">08/01/2025</td>
+            <td th:text="${r.stockName}">AMUNDI 3M-IC</td>
+            <td th:text="${r.isin}">FR0007038138</td>
+            <td class="right" th:text="${r.reinvestedCash}">4,478,060.00</td>
+            <td class="right" th:text="${r.nominalPerformance}">2.914</td>
+            <td class="right" th:text="${r.revenue}">362.49</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -28,33 +28,35 @@ public class ReportController {
 
     @GetMapping(value = "/reports/invoice/html", produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity<String> invoiceHtml() {
-        var invoice = invoiceDataService.sampleInvoice();
-        var result = engine.renderHtml(invoiceTemplate, invoice);
+        var report = invoiceDataService.sampleReport();
+        var result = engine.renderHtml(invoiceTemplate, report);
 
-        return switch (result) {
-            case ReportResult.Success s -> ResponseEntity.ok(s.html());
-            case ReportResult.Failure f -> ResponseEntity.internalServerError()
-                    .contentType(MediaType.TEXT_PLAIN)
-                    .body(f.code() + ": " + f.message());
-        };
+        if (result instanceof ReportResult.Success success) {
+            return ResponseEntity.ok(success.html());
+        }
+
+        ReportResult.Failure failure = (ReportResult.Failure) result;
+        return ResponseEntity.internalServerError()
+                .contentType(MediaType.TEXT_PLAIN)
+                .body(failure.code() + ": " + failure.message());
     }
 
     @GetMapping("/reports/invoice/download")
     public ResponseEntity<byte[]> downloadInvoiceHtml() {
-        var invoice = invoiceDataService.sampleInvoice();
-        var result = engine.renderHtml(invoiceTemplate, invoice);
+        var report = invoiceDataService.sampleReport();
+        var result = engine.renderHtml(invoiceTemplate, report);
 
-        return switch (result) {
-            case ReportResult.Success s -> {
-                byte[] bytes = s.html().getBytes(StandardCharsets.UTF_8);
-                yield ResponseEntity.ok()
-                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=invoice-report.html")
-                        .contentType(MediaType.TEXT_HTML)
-                        .body(bytes);
-            }
-            case ReportResult.Failure f -> ResponseEntity.internalServerError()
-                    .contentType(MediaType.TEXT_PLAIN)
-                    .body((f.code() + ": " + f.message()).getBytes(StandardCharsets.UTF_8));
-        };
+        if (result instanceof ReportResult.Success success) {
+            byte[] bytes = success.html().getBytes(StandardCharsets.UTF_8);
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=invoice-report.html")
+                    .contentType(MediaType.TEXT_HTML)
+                    .body(bytes);
+        }
+
+        ReportResult.Failure failure = (ReportResult.Failure) result;
+        return ResponseEntity.internalServerError()
+                .contentType(MediaType.TEXT_PLAIN)
+                .body((failure.code() + ": " + failure.message()).getBytes(StandardCharsets.UTF_8));
     }
 }

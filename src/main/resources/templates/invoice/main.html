@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="'Invoice ' + ${report.header.invoiceNo}">Invoice</title>
+
+    <style>
+        /* ====== PAGE SETUP (A4) ====== */
+        @page {
+            size: A4;
+            margin: 18mm 14mm 18mm 14mm;
+        }
+
+        body { font-family: Arial, sans-serif; font-size: 11px; color:#111; }
+        .page { page-break-after: always; }
+
+        /* Manual page breaks between sections */
+        .page-break { page-break-before: always; }
+
+        /* Common text styles */
+        .center { text-align:center; }
+        .right { text-align:right; }
+        .muted { color:#666; }
+
+        /* ====== REPEATING FOOTER (works best with PDF engine features / fixed footer) ====== */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            font-size: 9px;
+            color:#333;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            align-items: end;
+        }
+        .footer-center { text-align:center; }
+        .footer-right { text-align:right; }
+
+        /* ====== TABLE STYLES ====== */
+        table { width:100%; border-collapse: collapse; }
+        th, td { border:1px solid #333; padding:6px 8px; }
+        th { background:#e9e9e9; font-weight:700; }
+
+        /* Prevent ugly row splits if renderer supports it */
+        tr { page-break-inside: avoid; }
+        thead { display: table-header-group; } /* repeats header on each page for long tables */
+    </style>
+</head>
+
+<body>
+
+<!-- FOOTER (reused on all pages) -->
+<div th:replace="invoice/fragments/footer :: footer(${report.footer})"></div>
+
+<!-- PAGE 1: Header Box -->
+<div class="page">
+    <div th:replace="invoice/fragments/headerbox :: headerbox(${report.header})"></div>
+</div>
+
+<!-- PAGE 2: Overall Summary -->
+<div class="page page-break">
+    <div th:replace="invoice/sections/summary :: overallSummary(${report.summaryOverall})"></div>
+</div>
+
+<!-- PAGE 3: Summary by portfolio -->
+<div class="page page-break">
+    <div th:replace="invoice/sections/summary-portfolio :: summaryByPortfolio(${report.summaryByPortfolio})"></div>
+</div>
+
+<!-- DETAIL TABLE: cash reinvestment pages (may span multiple pages) -->
+<div class="page page-break">
+    <div th:replace="invoice/sections/cash-reinvest-table :: cashTable(${report.cashReinvest})"></div>
+</div>
+
+</body>
+</html>

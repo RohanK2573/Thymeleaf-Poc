@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="summaryByPortfolio(sp)">
+    <style>
+        .heading { text-align:center; font-size:14px; font-weight:700; margin-top:40px; }
+        .meta { margin: 16px 0 10px 0; }
+        .table { width:100%; border-collapse: collapse; margin-top: 10px; }
+        .table th, .table td { border:1px solid #333; padding:6px 8px; font-size:10px; }
+        .table th { background:#111; color:#fff; border-color:#111; }
+        .right { text-align:right; }
+    </style>
+
+    <div class="heading" th:text="${sp.title}">INVOICE JANUARY 2025 - SUMMARY BY PORTFOLIO</div>
+    <div class="meta">Currency : <span th:text="${sp.currency}">EUR</span></div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Portfolio</th>
+            <th class="right">Lending Fees</th>
+            <th class="right">Rebates</th>
+            <th class="right">Cash Reinvest. Revenues</th>
+            <th class="right">Total Revenues</th>
+            <th class="right">Split SG</th>
+            <th class="right">Split Client</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="row : ${sp.rows}">
+            <td th:text="${row.portfolioName}">LMA Paris</td>
+            <td class="right" th:text="${row.lendingFees}">12,500.00</td>
+            <td class="right" th:text="${row.rebates}">1,200.00</td>
+            <td class="right" th:text="${row.cashReinvestRevenue}">800.00</td>
+            <td class="right" th:text="${row.totalRevenues}">14,500.00</td>
+            <td class="right" th:text="${row.splitSg}">7,250.00</td>
+            <td class="right" th:text="${row.splitClient}">7,250.00</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

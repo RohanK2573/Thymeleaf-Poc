@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="overallSummary(s)">
+    <style>
+        .heading { text-align:center; font-size:14px; font-weight:700; margin-top:60px; }
+        .meta { margin-top:40px; }
+        .kv { width: 60%; margin: 50px auto 0 auto; }
+        .kv-row { display:grid; grid-template-columns: 1fr 120px 40px; padding:7px 0; }
+        .bold { font-weight:700; }
+    </style>
+
+    <div class="heading" th:text="${s.title}">INVOICE JANUARY 2025 - OVERALL SUMMARY</div>
+
+    <div class="meta">
+        <div>Currency : <span th:text="${s.currency}">EUR</span></div>
+    </div>
+
+    <div class="kv">
+        <div class="kv-row"><div>Total Lending Fees</div><div class="right" th:text="${s.totalLendingFees}"></div><div>EUR</div></div>
+        <div class="kv-row"><div>Total Rebates</div><div class="right" th:text="${s.totalRebates}"></div><div>EUR</div></div>
+        <div class="kv-row"><div>Total Cash Reinvestment revenues</div><div class="right" th:text="${s.totalCashReinvest}"></div><div>EUR</div></div>
+
+        <div class="kv-row bold"><div>TOTAL REVENUES</div><div class="right" th:text="${s.totalRevenues}"></div><div>EUR</div></div>
+
+        <div class="kv-row"><div>Split Revenues for SOCIETE GENERALE</div><div class="right" th:text="${s.splitSg}"></div><div>EUR</div></div>
+        <div class="kv-row"><div th:text="'Split Revenues for ' + ${s.clientShortName}">Split Revenues for EDF</div>
+            <div class="right" th:text="${s.splitClient}"></div><div>EUR</div></div>
+    </div>
+</div>
+</body>
+</html>
